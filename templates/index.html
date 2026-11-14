@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="summary">
+  <div class="summary-text">
+    {% if total %}<span><strong>{{ done }} of {{ total }}</strong> done</span><span>{{ percent }}%</span>
+    {% else %}<span>Nothing planned yet</span><span></span>{% endif %}
+  </div>
+  <div class="bar" role="progressbar" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100"><span style="width: {{ percent }}%"></span></div>
+</div>
+
+<section class="card">
+  <form class="add" method="post" action="{{ url_for('add') }}">
+    <input name="task" placeholder="What needs doing?" maxlength="140" autocomplete="off" required autofocus aria-label="New task">
+    <button class="btn-primary">Add task</button>
+  </form>
+
+  <nav class="filters" aria-label="Filter tasks">
+    <a href="{{ url_for('index') }}" {% if current == 'all' %}aria-current="page"{% endif %}>All</a>
+    <a href="{{ url_for('index', filter='active') }}" {% if current == 'active' %}aria-current="page"{% endif %}>To do</a>
+    <a href="{{ url_for('index', filter='done') }}" {% if current == 'done' %}aria-current="page"{% endif %}>Done</a>
+  </nav>
+
+  {% if tasks %}
+  <ul>
+    {% for t in tasks %}
+    <li class="{{ 'done' if t.done else '' }}">
+      <form method="post" action="{{ url_for('toggle', task_id=t.id) }}">
+        <button class="check" aria-label="{{ 'Mark as to do' if t.done else 'Mark as done' }}">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg>
+        </button>
+      </form>
+      <span class="text">{{ t.text }}</span>
+      <a class="edit" href="{{ url_for('edit', task_id=t.id) }}">Edit</a>
+      <form method="post" action="{{ url_for('delete', task_id=t.id) }}">
+        <button class="del" aria-label="Delete task">&times;</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <div class="empty">
+    {% if total == 0 %}<strong>No tasks yet</strong>Type something above and press Add task.
+    {% elif current == 'done' %}<strong>Nothing finished yet</strong>Tick a task to see it here.
+    {% else %}<strong>All clear</strong>Every task is done.{% endif %}
+  </div>
+  {% endif %}
+
+  {% if done %}
+  <footer class="tools">
+    <span>{{ pending }} left</span>
+    <form method="post" action="{{ url_for('clear') }}"><button class="link-btn">Clear completed</button></form>
+  </footer>
+  {% endif %}
+</section>
+{% endblock %}

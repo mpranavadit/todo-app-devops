@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Stats{% endblock %}
+{% block heading %}Stats{% endblock %}
+{% block content %}
+<div class="stats">
+  <div><strong>{{ total }}</strong>Total tasks</div>
+  <div><strong>{{ done }}</strong>Completed</div>
+  <div><strong>{{ pending }}</strong>To do</div>
+</div>
+<div class="summary">
+  <div class="summary-text"><span>Overall progress</span><span>{{ percent }}%</span></div>
+  <div class="bar" role="progressbar" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100"><span style="width: {{ percent }}%"></span></div>
+</div>
+<section class="card">
+  {% if recent %}
+  <ul>
+    {% for t in recent %}
+    <li class="{{ 'done' if t.done else '' }}"><span class="text">{{ t.text }}</span><span class="muted">{{ t.created[:16] }}</span></li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <div class="empty"><strong>No activity yet</strong>Add a task to see it listed here.</div>
+  {% endif %}
+</section>
+{% endblock %}

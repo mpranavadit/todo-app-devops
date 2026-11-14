@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Edit task{% endblock %}
+{% block heading %}Edit task{% endblock %}
+{% block content %}
+<section class="card">
+  <form class="add" method="post" action="{{ url_for('edit', task_id=task.id) }}">
+    <input name="task" value="{{ task.text }}" maxlength="140" autocomplete="off" required autofocus aria-label="Task text">
+    <button class="btn-primary">Save changes</button>
+  </form>
+  <footer class="tools"><a class="link-btn" href="{{ url_for('index') }}">Cancel</a></footer>
+</section>
+{% endblock %}

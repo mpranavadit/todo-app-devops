@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}About{% endblock %}
+{% block heading %}About{% endblock %}
+{% block content %}
+<section class="card prose">
+  <h2>What this app is</h2>
+  <p>A task manager built with Flask and SQLite. Tasks are stored in a database, so they survive restarts and redeploys.</p>
+  <h2>Tech stack</h2>
+  <ul class="plain">
+    <li>Flask (Python) for routes and templates</li>
+    <li>SQLite for storage, with add, view, edit and delete</li>
+    <li>Docker to package the app</li>
+    <li>GitHub and Jenkins for the CI/CD pipeline</li>
+    <li>AWS EC2 to host Jenkins and the running app</li>
+  </ul>
+  <h2>How a release reaches this page</h2>
+  <p>A push to GitHub triggers Jenkins. Jenkins builds the image, runs the tests, pushes it to Docker Hub, then deploys it to the app server over SSH. Running version: <strong>{{ version }}</strong>.</p>
+</section>
+{% endblock %}

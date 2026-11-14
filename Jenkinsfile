@@ -34,12 +34,13 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        sshagent(['ec2-key']) {
+        withCredentials([sshUserPrivateKey(credentialsId: 'ec2-key', keyFileVariable: 'KEY')]) {
           sh '''
-            ssh -o StrictHostKeyChecking=no ec2-user@$APP_IP "
+            ssh -i "$KEY" -o StrictHostKeyChecking=no ec2-user@$APP_IP "
               docker pull $IMAGE:$BUILD_NUMBER &&
               docker rm -f todo || true &&
-              docker run -d --name todo --restart unless-stopped -p 80:5000 $IMAGE:$BUILD_NUMBER"
+              docker run -d --name todo --restart unless-stopped -p 80:5000 \
+                -v todo-data:/data -e DB_PATH=/data/todo.db $IMAGE:$BUILD_NUMBER"
           '''
         }
       }

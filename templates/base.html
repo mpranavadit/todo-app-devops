@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Tasks{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<main>
+  <header>
+    <div class="top"><h1>{% block heading %}Tasks{% endblock %}</h1><span class="version">{{ version }}</span></div>
+    <nav class="menu" aria-label="Main">
+      <a href="{{ url_for('index') }}" {% if request.endpoint in ('index', 'edit') %}aria-current="page"{% endif %}>Tasks</a>
+      <a href="{{ url_for('stats') }}" {% if request.endpoint == 'stats' %}aria-current="page"{% endif %}>Stats</a>
+      <a href="{{ url_for('about') }}" {% if request.endpoint == 'about' %}aria-current="page"{% endif %}>About</a>
+    </nav>
+  </header>
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>
