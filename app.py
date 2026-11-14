@@ -2,7 +2,7 @@ from flask import Flask, request, redirect, render_template_string, jsonify, url
 
 app = Flask(__name__)
 
-APP_VERSION = "v1"   # change to "v2" for the CI/CD demo
+APP_VERSION = "v2"   # change to "v2" for the CI/CD demo
 
 tasks = []           # in-memory list; resets when the container restarts
 next_id = 1
