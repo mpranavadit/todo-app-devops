@@ -56,4 +56,3 @@ pipeline {
     failure { echo "Pipeline failed. Check the stage logs." }
   }
 }
-'@ | Set-Content Jenkinsfile
